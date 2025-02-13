@@ -21,18 +21,18 @@ If you find this project helpful, please consider giving it a star ⭐ and follo
 <img src="https://www.vectorlogo.zone/logos/github/github-icon.svg" alt="github" title="github" width="40" height="40"/>
 </a>
 <a href="https://gitlab.com/VedantKawade3" target="_blank">
-<img src="icons/gitlab.png" alt="GitLab" title="GitLab" width="40" height="40"/>
+<img src="https://github.com/VedantKawade3/VedantKawade3/blob/main/icons/gitlab.png" alt="GitLab" title="GitLab" width="40" height="40"/>
 </a>
 <a href="https://x.com/Vedant_Kawade07" target="_blank">
-<img src="icons/twitter.png" alt="Twitter" title="Twitter" width="40" height="40"/>
+<img src="https://github.com/VedantKawade3/VedantKawade3/blob/main/icons/twitter.png" alt="Twitter" title="Twitter" width="40" height="40"/>
 </a>
 <a href="https://www.linkedin.com/in/vedant-kawade-09501b278/" target="_blank">
-<img src="icons/linkedin.png" alt="LinkedIn" title="LinkedIn" width="40" height="40"/>
+<img src="https://github.com/VedantKawade3/VedantKawade3/blob/main/icons/linkedin.png" alt="LinkedIn" title="LinkedIn" width="40" height="40"/>
 </a>
 <a href="https://www.instagram.com/" target="_blank">
-<img src="icons/instagram.png" alt="Instagram" title="Instagram" width="40" height="40"/>
+<img src="https://github.com/VedantKawade3/VedantKawade3/blob/main/icons/instagram.png" alt="Instagram" title="Instagram" width="40" height="40"/>
 </a>
 <a href="mailto:vedantkawade.official@gmail.com" target="_blank">
-<img src="/icons/gmail.png" alt="Email -Vedant Kawade" title="Email -Vedant Kawade" width="40" height="40"/>
+<img src="https://github.com/VedantKawade3/VedantKawade3/blob/main/icons/gmail.png" alt="Email -Vedant Kawade" title="Email -Vedant Kawade" width="40" height="40"/>
 </a> <br><br><br>
 Happy Typing! 🎉
