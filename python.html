@@ -281,17 +281,101 @@
     /* Existing Typing Practice & Lesson Functionality */
     const lessons = {
       python: {
-        "Fibonacci": `def fibonacci(n):
-    if n <= 1:
-        return n
-    else:
-        return fibonacci(n-1) + fibonacci(n-2)`,
-        "Hello World": `print("Hello, World!")`,
-        "Factorial": `def factorial(n):
-    if n == 0:
-        return 1
-    else:
-        return n * factorial(n-1)`
+        "1.Variables & Basic Operations": `# practice assigning variables and basic math
+x = 5
+y = 3
+result = x + y * 2
+print("Result:", result)
+
+# string concatenation
+name = "Alice"
+greeting = "Hello, " + name + "!"
+print(greeting)`,
+        "2.Conditionals": `# check if a number is positive, negative, or zero
+num = -5
+
+if num > 0:
+    print("Positive")
+elif num < 0:
+    print("Negative")
+else:
+    print("Zero")
+
+# combine conditions with 'and'/'or'
+age = 25
+if age >= 18 and age <= 65:
+    print("Eligible to work")`,
+        "3.Loops": `# loop through a list of fruits
+fruits = ["apple", "banana", "cherry"]
+for fruit in fruits:
+    print(f"I love {fruit}s!")
+
+# use 'range()' for numbers
+for i in range(1, 6):  # Prints 1-5
+    print(i)
+
+# while loop example
+count = 0
+while count < 3:
+    print("Count:", count)
+    count += 1
+    `,
+        "4.Lists & Dictionaries": `# list operations
+numbers = [1, 2, 3]
+numbers.append(4) # add to end
+numbers.pop(0) # remove first element
+print("List:", numbers)
+
+# dictionary example
+student = {
+    "name": "Alice",
+    "age": 20,
+    "courses": ["Math", "Physics"]
+}
+print(student["name"]) # access value
+student["age"] = 21 # update value
+print("Updated age:", student["age"])`,
+        "5.Functions": `# define a function to calculate area of a rectangle
+def calculate_area(length, width):
+    return length * width
+
+area = calculate_area(4, 5)
+print("Area:", area)
+
+# function with default argument
+def greet(name="Guest"):
+    print(f"Welcome, {name}!")
+
+greet("Bob")
+greet()`,
+        "6.String Manipulation": `# slicing and methods
+text = "Python is fun!"
+print(text[0:6])      # "Python"
+print(text.upper())   # this will print every character to uppercase
+print(text.split())   # this will split or create list of every word present in text
+
+# formatting with f-strings
+score = 95
+print(f"You scored {score}%!")`,
+        "7.Error Handling": `# handle division by zero
+try:
+    result = 10 / 0
+except ZeroDivisionError:
+    print("Error: Cannot divide by zero!")
+
+# handle invalid input
+try:
+    num = int(input("Enter a number: "))
+except ValueError:
+    print("Invalid input! Use digits.")`,
+        "8.File I/O": `# write to a file
+with open("diary.txt", "w") as file:
+    file.write("Today was a good day.\n")
+
+# read from a file
+with open("diary.txt", "r") as file:
+    content = file.read()
+    print("File content:", content)`,
       }
     };
     const codeDisplay = document.getElementById('code');
