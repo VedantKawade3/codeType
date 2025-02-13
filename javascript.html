@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programming Typing Practice - JavaScript Lessons</title>
+  <style>
+    :root {
+      --primary-color: #00ffcc;
+      --secondary-color: #ff00cc;
+      --correct-color: #27ae60;
+      --incorrect-color: #c0392b;
+      --bg-dark: #0d0d0d;
+      --bg-light: #1a1a1a;
+      --font-family: 'Fira Code', monospace;
+    }
+    /* Background canvas styling for particle animation */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: var(--bg-dark);
+    }
+    /* Base styles */
+    body {
+      font-family: var(--font-family);
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      color: #d4d4d4;
+      background: var(--bg-dark); /* fallback background */
+      overflow: hidden;
+    }
+    /* Header styling */
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+    }
+    /* Navigation links */
+    .nav-links {
+      margin-bottom: 1rem;
+    }
+    .nav-links a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-size: 1rem;
+      margin: 0 10px;
+      position: relative;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: color 0.4s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      transition: width 0.4s;
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    /* Lesson buttons container */
+    #lesson-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      width: 80vw;
+      max-width: 600px;
+      margin-bottom: 1rem;
+      justify-content: center;
+    }
+    /* Glassmorphism lesson buttons */
+    .lesson-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(5px);
+      color: #d4d4d4;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+    }
+    .lesson-btn:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 15px rgba(0, 255, 204, 0.3);
+    }
+    .lesson-btn.active {
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: #1e1e1e;
+      box-shadow: 0 4px 15px rgba(0, 255, 204, 0.5);
+    }
+    /* Code container styles */
+    .code-container {
+      background: rgba(20, 20, 20, 0.9);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 255, 204, 0.3);
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+      width: 80vw;
+      max-width: 1000px;
+    }
+    .code-header {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #d4d4d4;
+      font-size: 14px;
+      font-weight: bold;
+      border-bottom: 1px solid rgba(0, 255, 204, 0.3);
+    }
+    .code-header span { font-style: italic; }
+    .code {
+      background-color: #1e1e1e;
+      color: #d4d4d4;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+      padding: 15px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+    /* Typing animation effects */
+    .char { transition: background-color 0.2s, box-shadow 0.2s; }
+    .current { 
+      background-color: rgba(0, 255, 204, 0.1); 
+      box-shadow: 0 0 5px rgba(0, 255, 204, 0.5); 
+    }
+    @keyframes blinkGreen {
+      0% { background-color: transparent; }
+      50% { background-color: var(--correct-color); }
+      100% { background-color: transparent; }
+    }
+    @keyframes blinkRed {
+      0% { background-color: transparent; }
+      50% { background-color: var(--incorrect-color); }
+      100% { background-color: transparent; }
+    }
+    .correct { animation: blinkGreen 0.3s ease; }
+    .incorrect { animation: blinkRed 0.3s ease; }
+    .line-end-emoji {
+      font-size: 16px;
+      margin-left: 4px;
+      color: var(--correct-color);
+    }
+    .hidden-emoji { visibility: hidden; }
+    #user-input { position: absolute; opacity: 0; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <!-- Background canvas for particle animation -->
+  <canvas id="bg-canvas"></canvas>
+
+  <h1>JavaScript Lessons</h1>
+  <div class="nav-links">
+    <a href="index.html">Back to Main Page</a>
+    <a href="custom.html">Custom Code Mode</a>
+  </div>
+  <div id="lesson-buttons"></div>
+  <div class="code-container" id="code-display">
+    <div class="code-header">
+      <span id="code-language">Python</span>
+    </div>
+    <pre id="code" class="code"></pre>
+  </div>
+  <textarea id="user-input"></textarea>
+  <script>
+    /* Particle Background Animation */
+    (function() {
+      const canvas = document.getElementById('bg-canvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      const particleCount = 80;
+      const maxDistance = 120;
+      
+      // Resize canvas to fill window
+      function resizeCanvas(){
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      
+      // Particle constructor
+      function Particle() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.vx = (Math.random() - 0.5) * 1.5;
+          this.vy = (Math.random() - 0.5) * 1.5;
+          this.radius = Math.random() * 2 + 1;
+      }
+      
+      Particle.prototype.update = function() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+          if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+      }
+      
+      Particle.prototype.draw = function() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+          ctx.fillStyle = "rgba(0, 255, 204, 0.8)";
+          ctx.fill();
+      }
+      
+      // Create particles
+      for(let i = 0; i < particleCount; i++){
+          particles.push(new Particle());
+      }
+      
+      let mouse = { x: null, y: null };
+      canvas.addEventListener('mousemove', function(e) {
+          const rect = canvas.getBoundingClientRect();
+          mouse.x = e.clientX - rect.left;
+          mouse.y = e.clientY - rect.top;
+      });
+      canvas.addEventListener('mouseout', function() {
+          mouse.x = null;
+          mouse.y = null;
+      });
+      
+      function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          for(let i = 0; i < particles.length; i++){
+              particles[i].update();
+              particles[i].draw();
+              // Draw lines between nearby particles
+              for(let j = i + 1; j < particles.length; j++){
+                  const dx = particles[i].x - particles[j].x;
+                  const dy = particles[i].y - particles[j].y;
+                  const distance = Math.sqrt(dx * dx + dy * dy);
+                  if(distance < maxDistance) {
+                      ctx.beginPath();
+                      ctx.moveTo(particles[i].x, particles[i].y);
+                      ctx.lineTo(particles[j].x, particles[j].y);
+                      ctx.strokeStyle = `rgba(0, 255, 204, ${1 - distance / maxDistance})`;
+                      ctx.lineWidth = 0.5;
+                      ctx.stroke();
+                  }
+              }
+              // Connect particle to mouse pointer if close
+              if(mouse.x !== null && mouse.y !== null) {
+                  const dxm = particles[i].x - mouse.x;
+                  const dym = particles[i].y - mouse.y;
+                  const distanceMouse = Math.sqrt(dxm * dxm + dym * dym);
+                  if(distanceMouse < maxDistance) {
+                      ctx.beginPath();
+                      ctx.moveTo(particles[i].x, particles[i].y);
+                      ctx.lineTo(mouse.x, mouse.y);
+                      ctx.strokeStyle = `rgba(255, 0, 204, ${1 - distanceMouse / maxDistance})`;
+                      ctx.lineWidth = 0.7;
+                      ctx.stroke();
+                  }
+              }
+          }
+          requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+    
+    /* Existing Typing Practice & Lesson Functionality */
+    const lessons = {
+      python: {
+        "Fibonacci": `def fibonacci(n):
+    if n <= 1:
+        return n
+    else:
+        return fibonacci(n-1) + fibonacci(n-2)`,
+        "Hello World": `print("Hello, World!")`,
+        "Factorial": `def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n-1)`
+      }
+    };
+    const codeDisplay = document.getElementById('code');
+    const codeLanguageDisplay = document.getElementById('code-language');
+    const userInput = document.getElementById('user-input');
+    const lessonButtonsContainer = document.getElementById('lesson-buttons');
+    let targetCode = "";
+    let targetLines = [];
+    let currentLine = 0, currentChar = 0;
+    let isResetting = false;
+    let currentLanguage = "python", currentLesson = "";
+    function focusInput() { userInput.focus(); }
+    function renderCode() {
+      targetLines = targetCode.split('\n');
+      let html = "";
+      for (let i = 0; i < targetLines.length; i++) {
+        let line = targetLines[i];
+        for (let j = 0; j < line.length; j++) {
+          let ch = line[j];
+          let disp = (ch === ' ') ? '&nbsp;' : ch;
+          html += `<span class="char" data-line="${i}" data-index="${j}">${disp}</span>`;
+        }
+        if (line.length > 0) {
+          html += `<span class="line-end-emoji hidden-emoji" data-line="${i}">↵</span>`;
+        }
+        if (i < targetLines.length - 1) html += `<br>`;
+      }
+      codeDisplay.innerHTML = html;
+      currentLine = 0; currentChar = 0;
+      updateCurrentHighlight();
+      focusInput();
+    }
+    function updateCurrentHighlight() {
+      document.querySelectorAll('.char').forEach(span => span.classList.remove('current'));
+      let selector = `.char[data-line="${currentLine}"][data-index="${currentChar}"]`;
+      let span = codeDisplay.querySelector(selector);
+      if (span) span.classList.add('current');
+    }
+    function resetSession() {
+      document.querySelectorAll('.char').forEach(span => span.classList.remove('correct','incorrect'));
+      document.querySelectorAll('.line-end-emoji').forEach(span => span.classList.add('hidden-emoji'));
+      currentLine = 0; currentChar = 0;
+      userInput.value = "";
+      updateCurrentHighlight();
+      focusInput();
+      isResetting = false;
+    }
+    function handleCorrect(s) { s.classList.add('correct'); }
+    function handleIncorrect(s) { s.classList.add('incorrect'); isResetting = true; setTimeout(resetSession,300); }
+    function processCharacter(c) {
+      if (isResetting) return;
+      if (currentChar === targetLines[currentLine].length) {
+        if (c === "\n") {
+          let emoji = codeDisplay.querySelector(`.line-end-emoji[data-line="${currentLine}"]`);
+          if (emoji) emoji.classList.add('hidden-emoji');
+          currentLine++;
+          currentChar = 0;
+          updateCurrentHighlight();
+          if (currentLine === targetLines.length) {
+            setTimeout(() => {
+              alert("Great job!");
+              loadNextLesson();
+              resetSession();
+            }, 100);
+          }
+        }
+        return;
+      }
+      let expected = targetLines[currentLine][currentChar];
+      let span = codeDisplay.querySelector(`.char[data-line="${currentLine}"][data-index="${currentChar}"]`);
+      if (c === expected) {
+        handleCorrect(span);
+        currentChar++;
+        if (currentChar === targetLines[currentLine].length) {
+          let emoji = codeDisplay.querySelector(`.line-end-emoji[data-line="${currentLine}"]`);
+          if (emoji) emoji.classList.remove('hidden-emoji');
+        }
+        if (currentLine === targetLines.length - 1 && currentChar === targetLines[currentLine].length) {
+          setTimeout(() => {
+            alert("Great job!");
+            loadNextLesson();
+            resetSession();
+          }, 100);
+        }
+      } else {
+        handleIncorrect(span);
+      }
+      updateCurrentHighlight();
+    }
+    userInput.addEventListener('input', e => {
+      if (isResetting) { userInput.value = ""; return; }
+      let v = userInput.value;
+      for (let i = 0; i < v.length; i++) {
+        processCharacter(v.charAt(i));
+        if (isResetting) break;
+      }
+      userInput.value = "";
+    });
+    userInput.addEventListener('keydown', e => {
+      if (e.key === "Enter") {
+        processCharacter("\n");
+        e.preventDefault();
+      }
+    });
+    function loadNextLesson() {
+      let lessonsForLang = Object.keys(lessons[currentLanguage]);
+      let currIdx = lessonsForLang.indexOf(currentLesson);
+      if (currIdx < lessonsForLang.length - 1) {
+        currentLesson = lessonsForLang[currIdx + 1];
+      } else {
+        currentLesson = lessonsForLang[0];
+      }
+      document.querySelectorAll('.lesson-btn').forEach(btn => {
+        if (btn.dataset.lesson === currentLesson) btn.classList.add('active');
+        else btn.classList.remove('active');
+      });
+      updatePredefinedCode();
+    }
+    function updatePredefinedCode() {
+      targetCode = lessons[currentLanguage][currentLesson];
+      renderCode();
+    }
+    function populateLessonButtons(lang) {
+      lessonButtonsContainer.innerHTML = "";
+      let keys = Object.keys(lessons[lang]);
+      currentLesson = keys[0];
+      keys.forEach(lesson => {
+        let btn = document.createElement('button');
+        btn.className = "lesson-btn" + (lesson === currentLesson ? " active" : "");
+        btn.textContent = lesson;
+        btn.dataset.lesson = lesson;
+        btn.addEventListener('click', () => {
+          currentLesson = btn.dataset.lesson;
+          document.querySelectorAll('.lesson-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          updatePredefinedCode();
+        });
+        lessonButtonsContainer.appendChild(btn);
+      });
+    }
+    document.addEventListener('click', e => { if (!userInput.contains(e.target)) focusInput(); });
+    populateLessonButtons(currentLanguage);
+    updatePredefinedCode();
+    focusInput();
+  </script>
+</body>
+</html>

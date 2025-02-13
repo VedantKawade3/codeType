@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programming Typing Practice</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #27ae60;
+      --accent-color: #2c3e50;
+      --background-color: #121212;
+      --card-bg: #1e1e1e;
+      --text-color: #d4d4d4;
+      --hover-glow: rgba(39, 174, 96, 0.4);
+      --transition-speed: 0.3s;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Fira Code', monospace;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    #bg-typewriter-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      z-index: -1;
+    }
+
+    .bg-column {
+      flex: 1;
+      overflow: auto;
+      padding: 1rem;
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+      opacity: 0.4;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+      animation: fadeIn 1s ease-out;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 2px;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      color: var(--primary-color);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .nav a {
+      display: inline-block;
+      padding: 15px 30px;
+      text-decoration: none;
+      color: #fff;
+      background: #098a29;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: bold;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.4s;
+    }
+
+    .nav a::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 300%;
+      height: 300%;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transition: all 0.6s;
+      transform: translate(-50%, -50%) scale(0);
+    }
+
+    .nav a:hover::before {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .nav a:hover {
+      color: #206ba1;
+      background: #fff;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    section {
+      width: 100%;
+      max-width: 800px;
+      text-align: center;
+    }
+
+    .language-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+
+    .language-card {
+      background-color: var(--card-bg);
+      border: 2px solid var(--accent-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text-color);
+      transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .language-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--hover-glow);
+      opacity: 0;
+      transition: opacity var(--transition-speed);
+    }
+
+    .language-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+    }
+
+    .language-card:hover::after {
+      opacity: 1;
+    }
+
+    .language-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .language-card p {
+      font-size: 0.9rem;
+      color: var(--accent-color);
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 1rem 0;
+      font-size: 0.9rem;
+      color: var(--accent-color);
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      .language-card {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="bg-typewriter-container">
+    <div class="bg-column" id="bg-left"></div>
+    <div class="bg-column" id="bg-middle"></div>
+    <div class="bg-column" id="bg-right"></div>
+  </div>
+
+  <header>
+    <h1>Programming Typing Practice</h1>
+    <p>Boost your coding speed &amp; accuracy with interactive lessons.</p>
+  </header>
+
+  <nav class="nav">
+    <a href="custom.html">Custom Code Mode</a>
+  </nav>
+
+  <section>
+    <h2 style="margin-bottom:1rem; color: var(--primary-color);">Explore Languages</h2>
+    <div class="language-grid">
+      <a href="python.html" class="language-card">
+        <h2>Python</h2>
+        <p>Dynamic, readable, and versatile.</p>
+      </a>
+      <a href="javascript.html" class="language-card">
+        <h2>JavaScript</h2>
+        <p>The language of the web.</p>
+      </a>
+      <a href="coming soon.html" class="language-card">
+        <h2>C#</h2>
+        <p>Modern object-oriented programming.</p>
+      </a>
+      <a href="coming soon.html" class="language-card">
+        <h2>C++</h2>
+        <p>High performance and control.</p>
+      </a>
+      <a href="coming soon.html" class="language-card">
+        <h2>Java</h2>
+        <p>Write once, run anywhere.</p>
+      </a>
+      <a href="coming soon.html" class="language-card">
+        <h2>Ruby</h2>
+        <p>Elegant and expressive.</p>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Vedant Kawade. All rights reserved.
+  </footer>
+
+  <script>
+    const pythonCode = [
+      ["# Program to compute Fibonacci, Factorial, and Prime numbers", "<span style='color:#6A9955;'># Program to compute Fibonacci, Factorial, and Prime numbers</span>"],
+      ["", ""],
+      ["def fibonacci(n):", "<span style='color:#4EC9B0;'>def</span> <span style='color:#9CDCFE;'>fibonacci</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>n</span><span style='color:#D4D4D4;'>):</span>"],
+      ["    if n <= 1:", "    <span style='color:#4EC9B0;'>if</span> <span style='color:#D4D4D4;'>n</span> <span style='color:#DCDCAA;'>&lt;=</span> <span style='color:#b5cea8;'>1</span><span style='color:#D4D4D4;'>:</span>"],
+      ["        return n", "        <span style='color:#4EC9B0;'>return</span> <span style='color:#D4D4D4;'>n</span>"],
+      ["    else:", "    <span style='color:#4EC9B0;'>else</span><span style='color:#D4D4D4;'>:</span>"],
+      ["        return fibonacci(n-1) + fibonacci(n-2)", "        <span style='color:#4EC9B0;'>return</span> <span style='color:#9CDCFE;'>fibonacci</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>n-1</span><span style='color:#D4D4D4;'>)</span> <span style='color:#D4D4D4;'>+</span> <span style='color:#9CDCFE;'>fibonacci</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>n-2</span><span style='color:#D4D4D4;'>)</span>"],
+      ["", ""],
+      ["def factorial(n):", "<span style='color:#4EC9B0;'>def</span> <span style='color:#9CDCFE;'>factorial</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>n</span><span style='color:#D4D4D4;'>):</span>"],
+      ["    if n == 0:", "    <span style='color:#4EC9B0;'>if</span> <span style='color:#D4D4D4;'>n</span> <span style='color:#DCDCAA;'>==</span> <span style='color:#b5cea8;'>0</span><span style='color:#D4D4D4;'>:</span>"],
+      ["        return 1", "        <span style='color:#4EC9B0;'>return</span> <span style='color:#b5cea8;'>1</span>"],
+      ["    else:", "    <span style='color:#4EC9B0;'>else</span><span style='color:#D4D4D4;'>:</span>"],
+      ["        return n * factorial(n-1)", "        <span style='color:#4EC9B0;'>return</span> <span style='color:#D4D4D4;'>n</span> <span style='color:#D4D4D4;'>*</span> <span style='color:#9CDCFE;'>factorial</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>n-1</span><span style='color:#D4D4D4;'>)</span>"],
+      ["", ""],
+      ["def greet(name):", "<span style='color:#4EC9B0;'>def</span> <span style='color:#9CDCFE;'>greet</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>name</span><span style='color:#D4D4D4;'>):</span>"],
+      ["    print(\"Hello, \" + name + \"!\")", "    <span style='color:#DCDCAA;'>print</span><span style='color:#D4D4D4;'>(</span><span style='color:#CE9178;'>\"Hello, \"</span> <span style='color:#D4D4D4;'>+</span> <span style='color:#D4D4D4;'>name</span> <span style='color:#D4D4D4;'>+</span> <span style='color:#CE9178;'>\"!\"</span><span style='color:#D4D4D4;'>)</span>"],
+      ["", ""],
+      ["def is_prime(n):", "<span style='color:#4EC9B0;'>def</span> <span style='color:#9CDCFE;'>is_prime</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>n</span><span style='color:#D4D4D4;'>):</span>"],
+      ["    if n <= 1:", "    <span style='color:#4EC9B0;'>if</span> <span style='color:#D4D4D4;'>n</span> <span style='color:#DCDCAA;'>&lt;=</span> <span style='color:#b5cea8;'>1</span><span style='color:#D4D4D4;'>:</span>"],
+      ["        return False", "        <span style='color:#4EC9B0;'>return</span> <span style='color:#CE9178;'>False</span>"],
+      ["    for i in range(2, int(n**0.5) + 1):", "    <span style='color:#4EC9B0;'>for</span> <span style='color:#D4D4D4;'>i</span> <span style='color:#4EC9B0;'>in</span> <span style='color:#9CDCFE;'>range</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>2</span><span style='color:#D4D4D4;'>,</span> <span style='color:#D4D4D4;'>int</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>n**0.5</span><span style='color:#D4D4D4;'>)</span> <span style='color:#D4D4D4;'>+</span> <span style='color:#b5cea8;'>1</span><span style='color:#D4D4D4;'>)</span>: "],
+      ["        if n % i == 0:", "        <span style='color:#4EC9B0;'>if</span> <span style='color:#D4D4D4;'>n</span> <span style='color:#DCDCAA;'>%</span> <span style='color:#D4D4D4;'>i</span> <span style='color:#DCDCAA;'>==</span> <span style='color:#D4D4D4;'>0</span><span style='color:#D4D4D4;'>:</span>"],
+      ["            return False", "            <span style='color:#4EC9B0;'>return</span> <span style='color:#CE9178;'>False</span>"],
+      ["    return True", "    <span style='color:#4EC9B0;'>return</span> <span style='color:#CE9178;'>True</span>"],
+      ["", ""],
+      ["if __name__ == \"__main__\":", "<span style='color:#4EC9B0;'>if</span> <span style='color:#D4D4D4;'>__name__</span> <span style='color:#DCDCAA;'>==</span> <span style='color:#CE9178;'>\"__main__\"</span><span style='color:#D4D4D4;'>:</span>"],
+      ["    n = 10", "    <span style='color:#D4D4D4;'>n</span> <span style='color:#DCDCAA;'>=</span> <span style='color:#b5cea8;'>10</span>"],
+      ["    print(\"Fibonacci sequence:\")", "    <span style='color:#DCDCAA;'>print</span><span style='color:#D4D4D4;'>(</span><span style='color:#CE9178;'>\"Fibonacci sequence:\"</span><span style='color:#D4D4D4;'>)</span>"],
+      ["    for i in range(n):", "    <span style='color:#4EC9B0;'>for</span> <span style='color:#D4D4D4;'>i</span> <span style='color:#4EC9B0;'>in</span> <span style='color:#9CDCFE;'>range</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>n</span><span style='color:#D4D4D4;'>)</span><span style='color:#D4D4D4;'>:</span>"],
+      ["        print(fibonacci(i))", "        <span style='color:#DCDCAA;'>print</span><span style='color:#D4D4D4;'>(</span><span style='color:#9CDCFE;'>fibonacci</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>i</span><span style='color:#D4D4D4;'>)</span><span style='color:#D4D4D4;'>)</span>"],
+      ["    print(\"Factorials:\")", "    <span style='color:#DCDCAA;'>print</span><span style='color:#D4D4D4;'>(</span><span style='color:#CE9178;'>\"Factorials:\"</span><span style='color:#D4D4D4;'>)</span>"],
+      ["    for i in range(n):", "    <span style='color:#4EC9B0;'>for</span> <span style='color:#D4D4D4;'>i</span> <span style='color:#4EC9B0;'>in</span> <span style='color:#9CDCFE;'>range</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>n</span><span style='color:#D4D4D4;'>)</span><span style='color:#D4D4D4;'>:</span>"],
+      ["        print(factorial(i))", "        <span style='color:#DCDCAA;'>print</span><span style='color:#D4D4D4;'>(</span><span style='color:#9CDCFE;'>factorial</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>i</span><span style='color:#D4D4D4;'>)</span><span style='color:#D4D4D4;'>)</span>"],
+      ["    print(\"Prime numbers up to 50:\")", "    <span style='color:#DCDCAA;'>print</span><span style='color:#D4D4D4;'>(</span><span style='color:#CE9178;'>\"Prime numbers up to 50:\"</span><span style='color:#D4D4D4;'>)</span>"],
+      ["    for i in range(50):", "    <span style='color:#4EC9B0;'>for</span> <span style='color:#D4D4D4;'>i</span> <span style='color:#4EC9B0;'>in</span> <span style='color:#9CDCFE;'>range</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>50</span><span style='color:#D4D4D4;'>)</span><span style='color:#D4D4D4;'>:</span>"],
+      ["        if is_prime(i):", "        <span style='color:#4EC9B0;'>if</span> <span style='color:#D4D4D4;'>is_prime</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>i</span><span style='color:#D4D4D4;'>)</span><span style='color:#D4D4D4;'>:</span>"],
+      ["            print(i, end=\" \")", "            <span style='color:#DCDCAA;'>print</span><span style='color:#D4D4D4;'>(</span><span style='color:#D4D4D4;'>i</span><span style='color:#D4D4D4;'>,</span> <span style='color:#D4D4D4;'>end=</span><span style='color:#CE9178;'>\" \"</span><span style='color:#D4D4D4;'>)</span>"],
+      ["    greet(\"World\")", "    <span style='color:#9CDCFE;'>greet</span><span style='color:#D4D4D4;'>(</span><span style='color:#CE9178;'>\"World\"</span><span style='color:#D4D4D4;'>)</span>"]
+    ];
+
+    const javaCode = [
+      ["class Main {", "<span style='color:#4EC9B0;'>class</span> <span style='color:#9CDCFE;'>Main</span> <span style='color:#D4D4D4;'>{</span>"],
+      ["  public static void main(String[] args) {", "  <span style='color:#4EC9B0;'>public</span> <span style='color:#4EC9B0;'>static</span> <span style='color:#4EC9B0;'>void</span> <span style='color:#9CDCFE;'>main</span><span style='color:#D4D4D4;'>(<span style='color:#4EC9B0;'>String</span>[] <span style='color:#9CDCFE;'>args</span>) {</span>"],
+      ["    System.out.println(\"Fibonacci:\");", "    <span style='color:#D4D4D4;'>System</span><span style='color:#D4D4D4;'>.</span><span style='color:#9CDCFE;'>out</span><span style='color:#D4D4D4;'>.</span><span style='color:#9CDCFE;'>println</span><span style='color:#D4D4D4;'>(<span style='color:#CE9178;'>\"Fibonacci:\"</span>);</span>"],
+      ["    for(int i=0;i<10;i++) {", "    <span style='color:#4EC9B0;'>for</span><span style='color:#D4D4D4;'>(<span style='color:#4EC9B0;'>int</span> <span style='color:#9CDCFE;'>i</span>=<span style='color:#b5cea8;'>0</span>; <span style='color:#9CDCFE;'>i</span> &lt; <span style='color:#b5cea8;'>10</span>; <span style='color:#9CDCFE;'>i</span>++) {</span>"],
+      ["      System.out.println(fibonacci(i));", "      <span style='color:#D4D4D4;'>System</span><span style='color:#D4D4D4;'>.</span><span style='color:#9CDCFE;'>out</span><span style='color:#D4D4D4;'>.</span><span style='color:#9CDCFE;'>println</span><span style='color:#D4D4D4;'>(<span style='color:#9CDCFE;'>fibonacci</span>(<span style='color:#9CDCFE;'>i</span>));</span>"],
+      ["    }", "    <span style='color:#D4D4D4;'>}</span>"],
+      ["    System.out.println(\"Factorials:\");", "    <span style='color:#D4D4D4;'>System</span><span style='color:#D4D4D4;'>.</span><span style='color:#9CDCFE;'>out</span><span style='color:#D4D4D4;'>.</span><span style='color:#9CDCFE;'>println</span><span style='color:#D4D4D4;'>(<span style='color:#CE9178;'>\"Factorials:\"</span>);</span>"],
+      ["    for(int i=0;i<10;i++) {", "    <span style='color:#4EC9B0;'>for</span><span style='color:#D4D4D4;'>(<span style='color:#4EC9B0;'>int</span> <span style='color:#9CDCFE;'>i</span>=<span style='color:#b5cea8;'>0</span>; <span style='color:#9CDCFE;'>i</span> &lt; <span style='color:#b5cea8;'>10</span>; <span style='color:#9CDCFE;'>i</span>++) {</span>"],
+      ["      System.out.println(factorial(i));", "      <span style='color:#D4D4D4;'>System</span><span style='color:#D4D4D4;'>.</span><span style='color:#9CDCFE;'>out</span><span style='color:#D4D4D4;'>.</span><span style='color:#9CDCFE;'>println</span><span style='color:#D4D4D4;'>(<span style='color:#9CDCFE;'>factorial</span>(<span style='color:#9CDCFE;'>i</span>));</span>"],
+      ["    }", "    <span style='color:#D4D4D4;'>}</span>"],
+      ["    System.out.println(\"Primes:\");", "    <span style='color:#D4D4D4;'>System</span><span style='color:#D4D4D4;'>.</span><span style='color:#9CDCFE;'>out</span><span style='color:#D4D4D4;'>.</span><span style='color:#9CDCFE;'>println</span><span style='color:#D4D4D4;'>(<span style='color:#CE9178;'>\"Primes:\"</span>);</span>"],
+      ["    for(int i=2;i<50;i++) {", "    <span style='color:#4EC9B0;'>for</span><span style='color:#D4D4D4;'>(<span style='color:#4EC9B0;'>int</span> <span style='color:#9CDCFE;'>i</span>=<span style='color:#b5cea8;'>2</span>; <span style='color:#9CDCFE;'>i</span> &lt; <span style='color:#b5cea8;'>50</span>; <span style='color:#9CDCFE;'>i</span>++) {</span>"],
+      ["      if(isPrime(i)) System.out.print(i+\" \");", "      <span style='color:#4EC9B0;'>if</span>(<span style='color:#9CDCFE;'>isPrime</span>(<span style='color:#9CDCFE;'>i</span>)) <span style='color:#D4D4D4;'>System</span><span style='color:#D4D4D4;'>.</span><span style='color:#9CDCFE;'>out</span><span style='color:#D4D4D4;'>.</span><span style='color:#9CDCFE;'>print</span><span style='color:#D4D4D4;'>(<span style='color:#9CDCFE;'>i</span> <span style='color:#D4D4D4;'>+</span> <span style='color:#CE9178;'>\" \"</span>);"],
+      ["    }", "    <span style='color:#D4D4D4;'>}</span>"],
+      ["    System.out.println();", "    <span style='color:#D4D4D4;'>System</span><span style='color:#D4D4D4;'>.</span><span style='color:#9CDCFE;'>out</span><span style='color:#D4D4D4;'>.</span><span style='color:#9CDCFE;'>println</span><span style='color:#D4D4D4;'>( );</span>"],
+      ["  }", "  <span style='color:#D4D4D4;'>}</span>"],
+      ["  static int fibonacci(int n) {", "  <span style='color:#4EC9B0;'>static</span> <span style='color:#4EC9B0;'>int</span> <span style='color:#9CDCFE;'>fibonacci</span><span style='color:#D4D4D4;'>(int n) {</span>"],
+      ["    if(n<=1)return n;", "    <span style='color:#4EC9B0;'>if</span>(n &lt;= 1)<span style='color:#4EC9B0;'>return</span> n;"],
+      ["    else return fibonacci(n-1)+fibonacci(n-2);", "    <span style='color:#4EC9B0;'>else</span> <span style='color:#4EC9B0;'>return</span> <span style='color:#9CDCFE;'>fibonacci</span><span style='color:#D4D4D4;'>(n-1)</span> <span style='color:#D4D4D4;'>+</span> <span style='color:#9CDCFE;'>fibonacci</span><span style='color:#D4D4D4;'>(n-2);</span>"],
+      ["  }", "  <span style='color:#D4D4D4;'>}</span>"],
+      ["  static int factorial(int n) {", "  <span style='color:#4EC9B0;'>static</span> <span style='color:#4EC9B0;'>int</span> <span style='color:#9CDCFE;'>factorial</span><span style='color:#D4D4D4;'>(int n) {</span>"],
+      ["    if(n==0)return 1;", "    <span style='color:#4EC9B0;'>if</span>(n == 0)<span style='color:#4EC9B0;'>return</span> <span style='color:#b5cea8;'>1;</span>"],
+      ["    else return n*factorial(n-1);", "    <span style='color:#4EC9B0;'>else</span> <span style='color:#4EC9B0;'>return</span> n <span style='color:#D4D4D4;'>*</span> <span style='color:#9CDCFE;'>factorial</span><span style='color:#D4D4D4;'>(n-1);</span>"],
+      ["  }", "  <span style='color:#D4D4D4;'>}</span>"],
+      ["  static boolean isPrime(int n) {", "  <span style='color:#4EC9B0;'>static</span> <span style='color:#4EC9B0;'>boolean</span> <span style='color:#9CDCFE;'>isPrime</span><span style='color:#D4D4D4;'>(int n) {</span>"],
+      ["    if(n<=1)return false;", "    <span style='color:#4EC9B0;'>if</span>(n &lt;= 1)<span style='color:#4EC9B0;'>return</span> <span style='color:#CE9178;'>false;</span>"],
+      ["    for(int i=2;i<n;i++) if(n%i==0)return false;", "    <span style='color:#4EC9B0;'>for</span>(<span style='color:#4EC9B0;'>int</span> i = 2; i &lt; n; i++) <span style='color:#4EC9B0;'>if</span>(n % i == 0)<span style='color:#4EC9B0;'>return</span> <span style='color:#CE9178;'>false;</span>"],
+      ["    return true;", "    <span style='color:#4EC9B0;'>return</span> <span style='color:#CE9178;'>true;</span>"],
+      ["  }", "  <span style='color:#D4D4D4;'>}</span>"],
+      ["}", "<span style='color:#D4D4D4;'>}</span>"]
+    ];
+
+
+    const CppCode = [
+      ["// C++ Program: Sample Code", "<span style='color:#6A9955;'>// C++ Program: Sample Code</span>"],
+      ["// This program demonstrates basic functions", "<span style='color:#6A9955;'>// This program demonstrates basic functions</span>"],
+      ["#include <iostream>", "<span style='color:#569CD6;'>#include &lt;iostream&gt;</span>"],
+      ["#include <cmath>", "<span style='color:#569CD6;'>#include &lt;cmath&gt;</span>"],
+      ["using namespace std;", "<span style='color:#4EC9B0;'>using namespace std;</span>"],
+      ["int add(int a, int b) {", "<span style='color:#4EC9B0;'>int</span> <span style='color:#9CDCFE;'>add</span><span style='color:#D4D4D4;'>(int a, int b) {</span>"],
+      ["    return a + b;", "    <span style='color:#4EC9B0;'>return</span> a <span style='color:#D4D4D4;'>+</span> b;"],
+      ["}", "<span style='color:#D4D4D4;'>}</span>"],
+      ["int factorial(int n) {", "<span style='color:#4EC9B0;'>int</span> <span style='color:#9CDCFE;'>factorial</span><span style='color:#D4D4D4;'>(int n) {</span>"],
+      ["    if(n <= 1) return 1;", "    <span style='color:#4EC9B0;'>if</span>(n <span style='color:#DCDCAA;'>&lt;=</span> 1) <span style='color:#4EC9B0;'>return</span> 1;"],
+      ["    else return n * factorial(n - 1);", "    <span style='color:#4EC9B0;'>else</span> <span style='color:#4EC9B0;'>return</span> n <span style='color:#D4D4D4;'>*</span> <span style='color:#9CDCFE;'>factorial</span><span style='color:#D4D4D4;'>(n - 1);</span>"],
+      ["}", "<span style='color:#D4D4D4;'>}</span>"],
+      ["bool isPrime(int n) {", "<span style='color:#4EC9B0;'>bool</span> <span style='color:#9CDCFE;'>isPrime</span><span style='color:#D4D4D4;'>(int n) {</span>"],
+      ["    if(n <= 1) return false;", "    <span style='color:#4EC9B0;'>if</span>(n <span style='color:#DCDCAA;'>&lt;=</span> 1) <span style='color:#4EC9B0;'>return</span> <span style='color:#CE9178;'>false;</span>"],
+      ["    for(int i = 2; i <= sqrt(n); i++) {", "    <span style='color:#4EC9B0;'>for</span>(<span style='color:#4EC9B0;'>int</span> i = 2; i <span style='color:#DCDCAA;'>&lt;=</span> <span style='color:#9CDCFE;'>sqrt</span>(n); i++) {"],
+      ["        if(n % i == 0) return false;", "        <span style='color:#4EC9B0;'>if</span>(n <span style='color:#DCDCAA;'>%</span> i <span style='color:#DCDCAA;'>==</span> 0) <span style='color:#4EC9B0;'>return</span> <span style='color:#CE9178;'>false;</span>"],
+      ["    }", "    <span style='color:#D4D4D4;'>}</span>"],
+      ["    return true;", "    <span style='color:#4EC9B0;'>return</span> <span style='color:#CE9178;'>true;</span>"],
+      ["}", "<span style='color:#D4D4D4;'>}</span>"],
+      ["int main() {", "<span style='color:#4EC9B0;'>int</span> <span style='color:#9CDCFE;'>main</span><span style='color:#D4D4D4;'>() {</span>"],
+      ["    cout << \"Sum: \" << add(5, 7) << endl;", "    <span style='color:#D4D4D4;'>cout</span> <span style='color:#DCDCAA;'>&lt;&lt;</span> <span style='color:#CE9178;'>\"Sum: \"</span> <span style='color:#DCDCAA;'>&lt;&lt;</span> <span style='color:#9CDCFE;'>add</span>(5, 7) <span style='color:#DCDCAA;'>&lt;&lt;</span> <span style='color:#D4D4D4;'>endl;</span>"],
+      ["    cout << \"Factorial of 5: \" << factorial(5) << endl;", "    <span style='color:#D4D4D4;'>cout</span> <span style='color:#DCDCAA;'>&lt;&lt;</span> <span style='color:#CE9178;'>\"Factorial of 5: \"</span> <span style='color:#DCDCAA;'>&lt;&lt;</span> <span style='color:#9CDCFE;'>factorial</span>(5) <span style='color:#DCDCAA;'>&lt;&lt;</span> <span style='color:#D4D4D4;'>endl;</span>"],
+      ["    cout << \"Primes: \";", "    <span style='color:#D4D4D4;'>cout</span> <span style='color:#DCDCAA;'>&lt;&lt;</span> <span style='color:#CE9178;'>\"Primes: \"</span>;"],
+      ["    for(int i = 0; i < 20; i++) {", "    <span style='color:#4EC9B0;'>for</span>(<span style='color:#4EC9B0;'>int</span> i = 0; i &lt; 20; i++) {"],
+      ["        if(isPrime(i)) cout << i << \" \";", "        <span style='color:#4EC9B0;'>if</span>(<span style='color:#9CDCFE;'>isPrime</span>(i)) <span style='color:#D4D4D4;'>cout</span> <span style='color:#DCDCAA;'>&lt;&lt;</span> i <span style='color:#DCDCAA;'>&lt;&lt;</span> <span style='color:#CE9178;'>\" \"</span>;"],
+      ["    }", "    <span style='color:#D4D4D4;'>}</span>"],
+      ["    cout << endl;", "    <span style='color:#D4D4D4;'>cout</span> <span style='color:#DCDCAA;'>&lt;&lt;</span> <span style='color:#D4D4D4;'>endl;</span>"],
+      ["    cout << \"End of Program\" << endl;", "    <span style='color:#D4D4D4;'>cout</span> <span style='color:#DCDCAA;'>&lt;&lt;</span> <span style='color:#CE9178;'>\"End of Program\"</span> <span style='color:#DCDCAA;'>&lt;&lt;</span> <span style='color:#D4D4D4;'>endl;</span>"],
+      ["    return 0;", "    <span style='color:#4EC9B0;'>return</span> <span style='color:#b5cea8;'>0;</span>"],
+      ["}", "<span style='color:#D4D4D4;'>}</span>"]
+    ];
+
+
+
+    function typeWriter(columnId, lines, charDelay, linePause) {
+      const column = document.getElementById(columnId);
+      let lineIndex = 0;
+      function typeLine() {
+        if (lineIndex >= lines.length) return;
+        const [plain, colored] = lines[lineIndex];
+        let typedCount = 0;
+        const tempLine = document.createElement("div");
+        column.appendChild(tempLine);
+        function typeChar() {
+          if (typedCount < plain.length) {
+            tempLine.textContent += plain.charAt(typedCount);
+            typedCount++;
+            column.scrollTop = column.scrollHeight;
+            setTimeout(typeChar, charDelay);
+          } else {
+            tempLine.innerHTML = colored;
+            column.scrollTop = column.scrollHeight;
+            lineIndex++;
+            setTimeout(typeLine, linePause);
+          }
+        }
+        typeChar();
+      }
+      typeLine();
+    }
+    typeWriter("bg-left", pythonCode, 35, 600);
+    typeWriter("bg-middle", javaCode, 35, 600);
+    typeWriter("bg-right", CppCode, 35, 600);
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const cards = document.querySelectorAll('.language-card');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = "translateY(0)";
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      cards.forEach(card => {
+        card.style.opacity = 0;
+        card.style.transform = "translateY(20px)";
+        observer.observe(card);
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coming Soon</title>
+  <style>
+    :root {
+      --primary-color: #00ffcc;
+      --secondary-color: #ff00cc;
+      --bg-dark: #0d0d0d;
+      --font-family: 'Fira Code', monospace;
+    }
+    /* Reset and base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: var(--font-family);
+      background: var(--bg-dark);
+      color: #d4d4d4;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative;
+    }
+    /* Particle background canvas */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: var(--bg-dark);
+    }
+    /* Glassmorphism container */
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+    }
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--primary-color);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+    }
+    p {
+      font-size: 1.25rem;
+      color: #d4d4d4;
+      margin-bottom: 1.5rem;
+    }
+    /* Back button style matching the neon & glass look */
+    .btn {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(5px);
+      border-radius: 8px;
+      color: var(--primary-color);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 15px rgba(0, 255, 204, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <!-- Particle Background -->
+  <canvas id="bg-canvas"></canvas>
+  
+  <div class="container">
+    <h1>Coming Soon...</h1>
+    <p>We're working on something amazing. Stay tuned!</p>
+    <a href="index.html" class="btn">Back to Main Page</a>
+  </div>
+  
+  <script>
+    // Particle Background Animation
+    (function() {
+      const canvas = document.getElementById('bg-canvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      const particleCount = 80;
+      const maxDistance = 120;
+      
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      
+      // Particle constructor
+      function Particle() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 1.5;
+        this.vy = (Math.random() - 0.5) * 1.5;
+        this.radius = Math.random() * 2 + 1;
+      }
+      
+      Particle.prototype.update = function() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+      }
+      
+      Particle.prototype.draw = function() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = "rgba(0, 255, 204, 0.8)";
+        ctx.fill();
+      }
+      
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+      
+      let mouse = { x: null, y: null };
+      canvas.addEventListener('mousemove', function(e) {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      });
+      canvas.addEventListener('mouseout', function() {
+        mouse.x = null;
+        mouse.y = null;
+      });
+      
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+          // Connect particles
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < maxDistance) {
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = `rgba(0, 255, 204, ${1 - distance / maxDistance})`;
+              ctx.lineWidth = 0.5;
+              ctx.stroke();
+            }
+          }
+          // Connect particle to mouse pointer if nearby
+          if (mouse.x !== null && mouse.y !== null) {
+            const dxm = particles[i].x - mouse.x;
+            const dym = particles[i].y - mouse.y;
+            const distanceMouse = Math.sqrt(dxm * dxm + dym * dym);
+            if (distanceMouse < maxDistance) {
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.strokeStyle = `rgba(255, 0, 204, ${1 - distanceMouse / maxDistance})`;
+              ctx.lineWidth = 0.7;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+  </script>
+</body>
+</html>
