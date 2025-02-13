@@ -4,7 +4,7 @@ Welcome to the **Typing Practice for Programmers** website! 🚀
 This platform is designed for beginner programmers who want to practice coding by typing accurately and for building muscle memory for programming in any language syntaxes. 
 
 ### 🌐 Visit the Website
-[**Start Practicing Now!**](https://vedantkawade3.github.io)  
+[**Start Practicing Now!**](https://vedantkawade3.github.io/codeType/)  
 
 ### 🎯 Features
 - **Custom Code Mode:** Paste your own code and practice typing it accurately.
