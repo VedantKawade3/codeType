@@ -106,8 +106,8 @@
     <h1>Feedback</h1>
     <p>Have any suggestions or noticed a mistake? Let us know!</p>
     <form id="feedback-form">
-      <input type="text" name="name" placeholder="Your Name (optional)" />
-      <input type="email" name="email" placeholder="Your Email (optional)" />
+      <input type="text" name="name" placeholder="Your Name" />
+      <input type="email" name="email" placeholder="Your Email" />
       <textarea name="feedback" placeholder="Enter your suggestions or report mistakes..." required></textarea>
       <button type="submit" class="btn">Submit Feedback</button>
     </form>
@@ -199,7 +199,7 @@
       const name  = form.elements["name"].value;
       const email = form.elements["email"].value;
       const feedback = form.elements["feedback"].value;
-      const recipient = "youremail@gmail.com";
+      const recipient = "vedantkawade.official@gmail.com";
       const subject = encodeURIComponent("Website Feedback" + (name ? " from " + name : ""));
       const body = encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\nFeedback:\n" + feedback);
       const mailtoLink = "mailto:" + recipient + "?subject=" + subject + "&body=" + body;
