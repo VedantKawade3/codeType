@@ -471,7 +471,8 @@ int main() {
       isResetting = false;
     }
     function handleCorrect(s) { s.classList.add('correct'); }
-    function handleIncorrect(s) { s.classList.add('incorrect'); isResetting = true; setTimeout(resetSession,300); }
+    // function handleIncorrect(s) { s.classList.add('incorrect'); isResetting = true; setTimeout(resetSession,300); }
+    function handleIncorrect(s) { s.classList.add('incorrect'); }
     function processCharacter(c) {
       if (isResetting) return;
       if (currentChar === targetLines[currentLine].length) {
