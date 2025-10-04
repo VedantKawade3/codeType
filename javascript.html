@@ -35,12 +35,13 @@
       min-height: 100vh;
       color: #d4d4d4;
       background: var(--bg-dark); /* fallback background */
-      overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
     /* Header styling */
     h1 {
       font-size: 2.5rem;
-      margin-bottom: 1rem;
+      margin: 1rem 0;
       color: var(--primary-color);
       text-transform: uppercase;
       letter-spacing: 2px;
@@ -48,7 +49,21 @@
     }
     /* Navigation links */
     .nav-links {
-      margin-bottom: 1rem;
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 0;
+    }
+    .top-bar {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 80vw;
+      max-width: 1000px;
+      margin: 1rem 0;
     }
     .nav-links a {
       color: var(--primary-color);
@@ -80,7 +95,7 @@
       gap: 0.75rem;
       width: 80vw;
       max-width: 600px;
-      margin-bottom: 1rem;
+      margin: 1rem 0;
       justify-content: center;
     }
     /* Glassmorphism lesson buttons */
@@ -110,8 +125,8 @@
     /* Code container styles */
     .code-container {
       background: rgba(20, 20, 20, 0.9);
+        overflow: visible;
       border-radius: 10px;
-      overflow: hidden;
       border: 1px solid rgba(0, 255, 204, 0.3);
       box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
       width: 80vw;
@@ -155,7 +170,7 @@
       50% { background-color: var(--incorrect-color); }
       100% { background-color: transparent; }
     }
-    .correct { animation: blinkGreen 0.3s ease; }
+    .correct { animation: blinkGreen 0.6s ease; }
     .incorrect { animation: blinkRed 0.3s ease; }
     .line-end-emoji {
       font-size: 16px;
@@ -164,23 +179,167 @@
     }
     .hidden-emoji { visibility: hidden; }
     #user-input { position: absolute; opacity: 0; pointer-events: none; }
+    .completion-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10;
+      transition: opacity 0.3s ease;
+    }
+    .completion-modal.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .completion-card {
+      background: rgba(20, 20, 20, 0.95);
+      border: 1px solid rgba(0, 255, 204, 0.3);
+      border-radius: 12px;
+      padding: 2rem 2.5rem;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(0, 255, 204, 0.25);
+      max-width: 320px;
+      width: 90%;
+    }
+    .completion-card h2 {
+      margin: 0 0 0.75rem 0;
+      color: var(--primary-color);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 1.5rem;
+    }
+    .completion-card p {
+      margin: 0 0 1.25rem 0;
+      color: #d4d4d4;
+    }
+    .completion-stats {
+      display: flex;
+      justify-content: space-around;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .completion-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .completion-stat .label {
+      font-size: 0.8rem;
+      color: #aaaaaa;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .completion-stat strong {
+      font-size: 1.75rem;
+      color: var(--primary-color);
+      line-height: 1.2;
+    }
+    .completion-stat .unit {
+      font-size: 0.75rem;
+      color: #aaaaaa;
+      letter-spacing: 0.5px;
+    }
+    .completion-close {
+      padding: 0.6rem 1.25rem;
+      border: 1px solid rgba(0, 255, 204, 0.4);
+      background: rgba(0, 255, 204, 0.08);
+      color: var(--primary-color);
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--font-family);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .completion-close:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 255, 204, 0.25);
+    }
+    .typing-stats {
+      display: flex;
+      gap: 1rem;
+      margin: 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .typing-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 120px;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 204, 0.2);
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 255, 204, 0.15);
+      backdrop-filter: blur(5px);
+    }
+    .typing-stat strong {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      line-height: 1.2;
+    }
+    .typing-stat .stat-label,
+    .typing-stat .stat-unit {
+      font-size: 0.75rem;
+      color: #aaaaaa;
+      letter-spacing: 0.5px;
+    }
   </style>
 </head>
 <body>
   <!-- Background canvas for particle animation -->
   <canvas id="bg-canvas"></canvas>
-
   <h1>JavaScript Lessons</h1>
-  <div class="nav-links">
-    <a href="index.html">Back to Main Page</a>
-    <a href="custom.html">Custom Code Mode</a>
+  <div class="top-bar">
+    <div class="nav-links">
+      <a href="index.html">Back to Main Page</a>
+      <a href="custom.html">Custom Code Mode</a>
+    </div>
+    <div class="typing-stats" id="typing-stats">
+      <div class="typing-stat">
+        <span class="stat-label">Speed</span>
+        <strong id="wpm-value">0</strong>
+        <span class="stat-unit">WPM</span>
+      </div>
+      <div class="typing-stat">
+        <span class="stat-label">Accuracy</span>
+        <strong id="accuracy-value">100%</strong>
+      </div>
+    </div>
   </div>
   <div id="lesson-buttons"></div>
-  <div class="code-container" id="code-display">
+<div class="code-container" id="code-display">
     <div class="code-header">
       <span id="code-language">Python</span>
     </div>
     <pre id="code" class="code"></pre>
+  </div>
+  <div class="completion-modal" id="completion-modal" aria-hidden="true">
+    <div class="completion-card" role="dialog" aria-labelledby="completion-title" aria-modal="true" tabindex="-1">
+      <h2 id="completion-title">Congratulations!</h2>
+      <p>You finished the lesson.</p>
+      <div class="completion-stats">
+        <div class="completion-stat">
+          <span class="label">Speed</span>
+          <strong id="modal-wpm">0</strong>
+          <span class="unit">WPM</span>
+        </div>
+        <div class="completion-stat">
+          <span class="label">Accuracy</span>
+          <strong id="modal-accuracy">100%</strong>
+        </div>
+      </div>
+      <button type="button" class="completion-close" id="completion-close">Next Lesson</button>
+    </div>
   </div>
   <textarea id="user-input"></textarea>
   <script>
@@ -191,7 +350,6 @@
       let particles = [];
       const particleCount = 80;
       const maxDistance = 120;
-      
       // Resize canvas to fill window
       function resizeCanvas(){
           canvas.width = window.innerWidth;
@@ -199,7 +357,6 @@
       }
       window.addEventListener('resize', resizeCanvas);
       resizeCanvas();
-      
       // Particle constructor
       function Particle() {
           this.x = Math.random() * canvas.width;
@@ -208,26 +365,22 @@
           this.vy = (Math.random() - 0.5) * 1.5;
           this.radius = Math.random() * 2 + 1;
       }
-      
       Particle.prototype.update = function() {
           this.x += this.vx;
           this.y += this.vy;
           if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
           if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
       }
-      
       Particle.prototype.draw = function() {
           ctx.beginPath();
           ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
           ctx.fillStyle = "rgba(0, 255, 204, 0.8)";
           ctx.fill();
       }
-      
       // Create particles
       for(let i = 0; i < particleCount; i++){
           particles.push(new Particle());
       }
-      
       let mouse = { x: null, y: null };
       canvas.addEventListener('mousemove', function(e) {
           const rect = canvas.getBoundingClientRect();
@@ -238,7 +391,6 @@
           mouse.x = null;
           mouse.y = null;
       });
-      
       function animate() {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           for(let i = 0; i < particles.length; i++){
@@ -277,7 +429,6 @@
       }
       animate();
     })();
-    
     /* Existing Typing Practice & Lesson Functionality */
     const lessons = {
       python: {
@@ -297,6 +448,74 @@
     const codeDisplay = document.getElementById('code');
     const codeLanguageDisplay = document.getElementById('code-language');
     const userInput = document.getElementById('user-input');
+    const wpmValue = document.getElementById('wpm-value');
+    const accuracyValue = document.getElementById('accuracy-value');
+    const completionModal = document.getElementById('completion-modal');
+    const modalWpmValue = document.getElementById('modal-wpm');
+    const modalAccuracyValue = document.getElementById('modal-accuracy');
+    const completionCloseButton = document.getElementById('completion-close');
+    const typingStats = {
+      startTime: null,
+      total: 0,
+      correct: 0
+    };
+    function resetMetrics() {
+      typingStats.startTime = null;
+      typingStats.total = 0;
+      typingStats.correct = 0;
+      wpmValue.textContent = '0';
+      accuracyValue.textContent = '100%';
+    }
+    function updateMetrics() {
+      if (!typingStats.total) {
+        accuracyValue.textContent = '100%';
+      } else {
+        const accuracy = (typingStats.correct / typingStats.total) * 100;
+        accuracyValue.textContent = accuracy.toFixed(1) + '%';
+      }
+      if (!typingStats.startTime || !typingStats.correct) {
+        wpmValue.textContent = '0';
+        return;
+      }
+      const minutesElapsed = (Date.now() - typingStats.startTime) / 60000;
+      if (minutesElapsed > 0) {
+        const wordsPerMinute = (typingStats.correct / 5) / minutesElapsed;
+        wpmValue.textContent = Math.max(0, Math.round(wordsPerMinute)).toString();
+      }
+    }
+    function registerAttempt(isCorrect) {
+      if (!typingStats.startTime) {
+        typingStats.startTime = Date.now();
+      }
+      typingStats.total++;
+      if (isCorrect) {
+        typingStats.correct++;
+      }
+      updateMetrics();
+    }
+    function showCompletionModal() {
+      modalWpmValue.textContent = wpmValue.textContent;
+      modalAccuracyValue.textContent = accuracyValue.textContent;
+      completionModal.classList.add('visible');
+      completionModal.setAttribute('aria-hidden', 'false');
+      const modalCard = completionModal.querySelector('.completion-card');
+      if (modalCard) {
+        modalCard.focus();
+      }
+    }
+    function hideCompletionModal(advanceLesson) {
+      if (!completionModal.classList.contains('visible')) return;
+      completionModal.classList.remove('visible');
+      completionModal.setAttribute('aria-hidden', 'true');
+      resetSession();
+      if (advanceLesson !== false && typeof loadNextLesson === 'function') {
+        loadNextLesson();
+      }
+    }
+    function handleSessionComplete() {
+      isResetting = true;
+      showCompletionModal();
+    }
     const lessonButtonsContainer = document.getElementById('lesson-buttons');
     let targetCode = "";
     let targetLines = [];
@@ -320,7 +539,9 @@
         if (i < targetLines.length - 1) html += `<br>`;
       }
       codeDisplay.innerHTML = html;
+      codeDisplay.scrollTop = 0;
       currentLine = 0; currentChar = 0;
+      resetMetrics();
       updateCurrentHighlight();
       focusInput();
     }
@@ -335,6 +556,8 @@
       document.querySelectorAll('.line-end-emoji').forEach(span => span.classList.add('hidden-emoji'));
       currentLine = 0; currentChar = 0;
       userInput.value = "";
+      resetMetrics();
+      codeDisplay.scrollTop = 0;
       updateCurrentHighlight();
       focusInput();
       isResetting = false;
@@ -346,6 +569,7 @@
       if (isResetting) return;
       if (currentChar === targetLines[currentLine].length) {
         if (c === "\n") {
+          registerAttempt(true);
           let emoji = codeDisplay.querySelector(`.line-end-emoji[data-line="${currentLine}"]`);
           if (emoji) emoji.classList.add('hidden-emoji');
           currentLine++;
@@ -353,17 +577,18 @@
           updateCurrentHighlight();
           if (currentLine === targetLines.length) {
             setTimeout(() => {
-              alert("Great job!");
-              loadNextLesson();
-              resetSession();
+              handleSessionComplete();
             }, 100);
           }
+        } else {
+          registerAttempt(false);
         }
         return;
       }
       let expected = targetLines[currentLine][currentChar];
       let span = codeDisplay.querySelector(`.char[data-line="${currentLine}"][data-index="${currentChar}"]`);
       if (c === expected) {
+        registerAttempt(true);
         handleCorrect(span);
         currentChar++;
         if (currentChar === targetLines[currentLine].length) {
@@ -372,12 +597,11 @@
         }
         if (currentLine === targetLines.length - 1 && currentChar === targetLines[currentLine].length) {
           setTimeout(() => {
-            alert("Great job!");
-            loadNextLesson();
-            resetSession();
+            handleSessionComplete();
           }, 100);
         }
       } else {
+        registerAttempt(false);
         handleIncorrect(span);
       }
       updateCurrentHighlight();
@@ -433,10 +657,26 @@
         lessonButtonsContainer.appendChild(btn);
       });
     }
-    document.addEventListener('click', e => { if (!userInput.contains(e.target)) focusInput(); });
+    document.addEventListener('click', e => {
+      if (completionModal.classList.contains('visible')) return;
+      if (!userInput.contains(e.target)) focusInput();
+    });
     populateLessonButtons(currentLanguage);
     updatePredefinedCode();
     focusInput();
+    completionCloseButton.addEventListener('click', () => {
+      hideCompletionModal();
+    });
+    completionModal.addEventListener('click', event => {
+      if (event.target === completionModal) {
+        hideCompletionModal();
+      }
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === "Escape" && completionModal.classList.contains('visible')) {
+        hideCompletionModal();
+      }
+    });
   </script>
 </body>
 </html>
